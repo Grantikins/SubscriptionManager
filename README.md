@@ -11,5 +11,6 @@ The tech stack used here is:
 * flask
 * sqlalchemy
 * sqllite 
+* Spectre CSS
 
 The full list of requirements is in the requirements.txt file here in this repo. You can install them if you want to run this on your machine. 
