@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+        {% block customCSS %}{% endblock %}
+        <title>Subscription Manager</title>
+    </head>
+    <body>
+        <div class="container sm-container">
+            
+            <div class="columns">
+
+                <div class="column col-1"></div>
+
+                <div class="column col-10">
+                    <header class="navbar bg-color border-shadow">
+                        <section class="navbar-section m-2">
+                            <a class="btn btn-link mx-2" href="/">Home</a>
+                            <a class="btn btn-link mx-2" href="/addsubscription">Add Subscription</a>
+                            <a class="btn btn-link mx-2" href="/account">Account</a>
+                        </section>
+        
+                        <section class="navbar-section"></section>
+        
+                        <section class="navbar-section m-2">
+                            <a class="btn btn-link mx-2" href="/logout">Logout</a>
+                        </section>
+                    </header>    
+
+                    <div class="m-2">
+                        {% block content %}{% endblock %}
+                    </div>
+
+                    <footer class="bg-color border-shadow">
+                        
+                        <div class="columns">
+                            
+                            <div class="column col-6">
+                                <p class="text-small p-2 m-2">
+                                    OMG! This is a footer. Honestly, I never use footers or look at them very often, but it does make a website look more professional. I guess
+                                    I'll use one then. I'll just add stuff that's already at the top of the page ;)
+                                </p>
+                            </div>
+                            
+                            <div class="column col-6">
+
+                                <div class="float-right">
+
+                                    <div>
+                                        <a class="btn btn-link mx-2" href="/account">Account</a>
+                                        <a class="btn btn-link mx-2" href="/logout">Logout</a>
+                                    </div>
+    
+                                    <div class="mx-2 px-2">
+                                        <a class="btn btn-link mx-2" href="https://github.com/Grantikins">
+                                            <i class="fa-brands fa-github brand-button"></i>
+                                        </a>
+                                        <a class="btn btn-link mx-2" href="https://linkedin.com/in/grantrandell">
+                                            <i class="fa-brands fa-linkedin brand-button"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                
+                                
+                            </div>
+
+                        </div>
+                        
+                    </footer>
+                    
+                </div>
+
+                <div class="column col-1"></div>
+
+            </div>
+
+        </div>
+
+        <script src="https://kit.fontawesome.com/a869555a1a.js" crossorigin="anonymous"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

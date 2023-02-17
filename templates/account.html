@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/account.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="m-2 p-2">
+    <h1>Account</h1>
+    <hr>
+
+    <div class="columns text-large bg-secondary s-rounded">
+        <div class="column col-3 m-2">
+            <p class="fieldP">Name:</p>
+            <p class="fieldP">Email Associated:</p>
+            <p class="fieldP">Password Associated:</p>
+        </div>
+
+        <div class="column col-3 m-2">
+            <div id="name">
+                <p>
+                    {{name}}
+                    <button class="btn btn-link tooltip" data-tooltip="Edit" id="nameButton">
+                        <i class="icon icon-edit"></i>
+                    </button>
+                </p>
+            </div>
+
+            <div id="email">
+                <p>
+                    {{email}}
+                    <button class="btn btn-link tooltip" data-tooltip="Edit" id="emailButton">
+                        <i class="icon icon-edit"></i>
+                    </button>
+                </p>
+            </div>
+
+            <div id="password">
+                <p>
+                    {{password}}
+                    <button class="btn btn-link tooltip" data-tooltip="Edit" id="passwordButton">
+                        <i class="icon icon-edit"></i>
+                    </button>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="column col-6"></div>
+    </div>
+
+    <div class="columns">
+
+        <div class="column col-4"></div>
+
+        <div class="column col-4">
+            <div class="text-center">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="toast toast-{{category}}">
+                                <span class="">
+                                    <p class="m-2">{{message}}</p>
+                                </span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="column col-4"></div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/account.js') }}"></script>
+{% endblock %}

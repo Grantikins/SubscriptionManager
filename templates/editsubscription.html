@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/addsubscription.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="m-2 p-2">
+    <h1>Edit Subscription</h1>
+
+    <hr>
+
+    <form action="/subscription/{{ sub.id }}/edit/" method="POST" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Service Name*:</label>
+            </div>
+            <div class="col-10">
+                <input type="text" name="serviceName" placeholder="e.g. Netflix" class="form-input mb-2" value="{{ sub.serviceName }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Payment per Cycle*:</label>
+            </div>
+            <div class="col-10">
+                <input type="number" name="paymentAmount" placeholder="e.g. 10" class="form-input mb-2" min="0" step="any" value="{{ sub.paymentAmount }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Start Date:</label>
+                <label class="form-label text-tiny text-muted">(or the last payment date)</label>
+            </div>
+            <div class="col-10">
+                {% if sub.startDate %}
+                    <input type="date" name="startDate" class="form-input mb-2" max="" id="dateInput" value="{{ sub.startDate.strftime('%Y-%m-%d') }}">
+                {% else %}
+                    <input type="date" name="startDate" class="form-input mb-2" max="" id="dateInput">
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Cycle Time:</label>
+            </div>
+            <div class="col-1 my-1">
+                Every
+            </div>
+            <div class="col-4">
+                {% if sub.timeBetweenPayments %}
+                    <input type="number" class="form-input" name="intervalNum" min="1" max="30" step="1" id="intervalNum" value="{{ sub.timeBetweenPayments.split(' ')[0] }}">
+                {% else %}
+                    <input type="number" class="form-input" name="intervalNum" min="1" max="30" step="1" id="intervalNum">
+                {% endif %}
+            </div>
+            <div class="col-1"> </div>
+            <div class="col-4">
+                {% if sub.timeBetweenPayments %}
+                    <select class="form-select" name="intervalUnit" id="interval">
+                        <option>{{ sub.timeBetweenPayments.split(" ")[1] }}</option>
+                        {% set options = ["Day(s)", "Week(s)", "Month(s)", "Year(s)"] %}
+                        {% for i in range(options|length) %}
+                            {% if sub.timeBetweenPayments.split(" ")[1] != options[i] %}
+                                <option>{{ options[i] }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <select class="form-select" name="intervalUnit" id="interval">
+                        <option>Choose One</option>
+                        <option>Day(s)</option>
+                        <option>Week(s)</option>
+                        <option>Month(s)</option>
+                        <option>Year(s)</option>
+                    </select>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Website Associated:</label>
+            </div>
+            <div>
+                {% if sub.urlAssociated %}
+                    <input type="url" name="subURL" class="form-input" placeholder="e.g. https://netflix.com" value="{{ sub.urlAssociated }}">
+                {% else %}
+                    <input type="url" name="subURL" class="form-input" placeholder="e.g. https://netflix.com">
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-2">
+                <label class="form-label text-large">Is Active:</label>
+            </div>
+            <div>
+                {% if sub.active %}
+                    <input type="checkbox" name="active" class="checkbox-down" checked>
+                {% else %}
+                    <input type="checkbox" name="active" class="checkbox-down">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="sm-inline">
+            <input type="submit" value="Submit" class="btn btn-primary">
+
+            <div class="text-small text-muted mx-2 px-2">
+                <p>An * means that a field is required.</p>
+            </div>
+        </div>
+    </form>
+
+    <div class="columns">
+
+        <div class="column col-4"></div>
+
+        <div class="column col-4">
+            <div class="text-center">
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="toast toast-{{category}}">
+                                <span class="">
+                                    <p class="m-2">{{message}}</p>
+                                </span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="column col-4"></div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/addsubscription.js') }}"></script>
+{% endblock %}

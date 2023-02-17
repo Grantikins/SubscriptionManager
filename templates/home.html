@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="m-2 p-2">
+    {% set greetings = ["Hey there", "Howdy", "What's up", "Greetings"] %}
+    <h2>{{ greetings | random }}, {{name}}!</h2>
+  
+    <div name="userid" value="{{user_id}}"></div>
+
+    <hr>
+
+    {% if aSubs|length == 0 and iSubs|length == 0 %}
+        <div class="empty">
+            <div class="empty-icon">
+                <i class="fa-solid fa-face-sad-tear fa-2xl"></i>
+            </div>
+            <p class="empty-title h3">You don't have any subscriptions yet...</p>
+            <p class="empty-subtitle">Let's try adding one!</p>
+            <div class="empty-action">
+                <a class="btn btn-primary" href="/addsubscription">Add Subscription</a>
+            </div>
+        </div>
+    {% else %}
+
+        <h4>Overview</h4>
+        
+        <div class="columns text-large mb-2">
+
+            <div class="column col-5 menu stat-box" id="statBox">
+                <h5>Some Stats:</h5>
+                <hr>
+                <div class="columns">
+
+                    <div class="column col-5">
+                        <p>Upcoming Monthly Total:</p>
+                        <p>Total Spent Past Month:</p>
+                        <p>Subscriptions Active:</p>
+                        <p>Current Subscription Value:</p>
+                        <p>Total Subscriptions:</p>
+                    </div>
+
+                    <div class="column col-2"></div>
+
+                    <div class="column col-5 text-center">
+                        <p>${{ "{:.2f}".format(upcoming) }}</p>
+                        <p>${{ "{:.2f}".format(pastSpent) }}</p>
+                        <p>{{ aSubs|length }}</p>
+                        <p>${{ "{:.2f}".format(subValue) }}</p>
+                        <p>{{ aSubs|length + iSubs|length }}</p>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <div class="column col-1"></div>
+
+            <div class="column col-6">
+
+                <div class="calendar" id="calendarBox">
+
+                    <div class="calendar-nav navbar">
+                        <button class="btn btn-action btn-link" name="calendar-left-button">
+                            <i class="icon icon-arrow-left"></i>
+                        </button>
+                        <div class="navbar-primary" name="calendar-title" value="{{date}}">{{ date.strftime("%B %Y") }}</div>
+                        <button class="btn btn-action btn-link" name="calendar-right-button">
+                            <i class="icon icon-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div class="calendar-date">Sun</div>
+                            <div class="calendar-date">Mon</div>
+                            <div class="calendar-date">Tue</div>
+                            <div class="calendar-date">Wed</div>
+                            <div class="calendar-date">Thu</div>
+                            <div class="calendar-date">Fri</div>
+                            <div class="calendar-date">Sat</div>
+                        </div>
+
+                        <div class="calendar-body" id="calendar-body">
+                            {% for day in dayList %}
+                                {% set custClass = "calendar-date text-center" %}
+                                {% if day.month != date.month %}
+                                    {% set custClass = custClass + " prev-month" %}
+                                {% endif %}
+                                <div class='{{custClass}}' data-tooltip='' name="calendar-date">
+                                    <button class="date-item">{{day.strftime("%d")}}</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% if aSubs|length > 0 %}
+            <div class="menu mb-2">
+                <h4>Your Active Subscriptions</h4>
+
+                <table class="table mb-2">
+                    <thead>
+                        <th>Service</th>
+                        <th>Payment</th>
+                        <th>Next Payment Date</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {% for sub in aSubs %}
+                            {% if sub.active %}
+                                <tr class="active text-large">
+                                    <td>{{sub.serviceName}}</td>
+                                    <td>${{"{:.2f}".format(sub.paymentAmount)}}</td>
+                                    {% if sub.nextPaymentDate %}
+                                        <td>{{ sub.nextPaymentDate.strftime("%Y-%m-%d") }}</td>
+                                    {% else %}
+                                        <td>N/A</td>
+                                    {% endif %}
+                                    <td><a href="/subscription/{{sub.id}}/">View</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <a class="btn btn-primary" href="/addsubscription">Add Subscription</a>
+            </div>
+        {% endif %}
+
+        {% if iSubs|length > 0 %}
+            <div class="menu">
+                <h4>Your Inactive Subscriptions</h4>
+
+                <table class="table mb-2">
+                    <thead>
+                        <th>Service</th>
+                        <th>Payment</th>
+                        <th>Next Payment Date</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {% for sub in iSubs %}
+                            {% if not sub.active %}
+                                <tr class="active text-large">
+                                    <td>{{sub.serviceName}}</td>
+                                    <td>${{"{:.2f}".format(sub.paymentAmount)}}</td>
+                                    {% if sub.nextPaymentDate %}
+                                        <td>{{ sub.nextPaymentDate.strftime("%Y-%m-%d") }}</td>
+                                    {% else %}
+                                        <td>N/A</td>
+                                    {% endif %}
+                                    <td><a href="/subscription/{{sub.id}}/">View</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/home.js') }}"></script>
+{% endblock %}

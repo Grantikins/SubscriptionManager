@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/login-signup.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+        <title>Subscription Manager</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="columns mt-2 pt-2">
+
+                <div class="column col-3"></div>
+
+                <div class="column col-6">
+
+                    <div class="text-center title">
+                        <h3>Welcome! Create an account or log in to an existing one!</h3>
+                        <hr>
+                    </div>
+        
+                    <!-- Form Div -->
+                    <div class="columns mt-2 pt-2">
+        
+                        <div class="column col-1"></div>
+        
+                        <div class="column col-5 bg-secondary s-rounded">
+                            <div class="m-2">
+                                <h4>Sign In</h4>
+                                <form action="/login" method="POST" class="form-group">
+                                    <input type="email" name="email" placeholder="Email" class="form-input mb-2">
+                                    <input type="password" name="password" placeholder="Password" class="form-input mb-2">
+                                    <input type="submit" value="Sign in" class="btn btn-primary">
+                                </form>
+                            </div>
+                        </div>
+        
+                        <div class="divider-vert" data-content="OR"></div>
+        
+                        <div class="column col-5 bg-secondary s-rounded">
+                            <div class="m-2">
+                                <h4>Create Account</h4>
+                                <form action="/signup" method="POST" class="form-group">
+                                    <input type="name" name="name" placeholder="Name e.g. Grant" class="form-input mb-2">
+                                    <input type="email" name="email" placeholder="Email e.g. grant@example.com" class="form-input mb-2">
+                                    <input type="password" name="password" placeholder="Password" class="form-input mb-2">
+                                    <input type="submit" value="Sign up" class="btn btn-primary">
+                                </form>
+                            </div>
+                        </div>
+        
+                        <div class="column col-1"></div>
+        
+                    </div>
+
+                </div>
+
+                <div class="column col-3"></div>
+
+            </div>
+
+        
+
+            <!-- Error Div -->
+            <div class="container">
+
+                <div class="columns mt-2 pt-2">
+
+                    <div class="column col-4"></div>
+                        
+                    <div class="column col-4 text-center">
+                        {% with messages = get_flashed_messages(with_categories=True) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="toast toast-{{category}}">
+                                        <span class="">
+                                            <p class="m-2">{{message}}</p>
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="column col-4"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </body>
+</html>
+

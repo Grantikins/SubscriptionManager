@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="m-2 p-2">
+
+    <div class="sm-inline">
+        <h1>Subscription for {{sub.serviceName}}</h1>
+        <a class="mx-2 mt-2 tooltip" data-tooltip="Edit" id="edit" url="/subscription/{{sub.id}}/edit">
+            <i class="btn btn-link icon icon-2x icon-edit"></i>
+        </a>
+        {% if sub.active %}
+            <a class="mx-2 mt-2 tooltip" data-tooltip="Deactivate" id="deactivate" url="/subscription/{{sub.id}}/deactivate">
+                <i class="btn btn-link icon icon-2x icon-cross"></i>
+            </a>
+        {% else %}
+            <a class="mx-2 mt-2 tooltip" data-tooltip="Activate" id="activate" url="/subscription/{{sub.id}}/activate">
+                <i class="btn btn-link icon icon-2x icon-check"></i>
+            </a>
+        {% endif %}
+        <a class="mx-2 mt-2 tooltip" data-tooltip="Delete" id="delete" url="/subscription/{{sub.id}}/delete">
+            <i class="btn btn-link icon icon-2x icon-delete text-error"></i>
+        </a>
+    </div>
+    
+    <hr>
+
+    <div class="columns text-large bg-secondary s-rounded">
+
+        <div class="column col-3 m-2">
+            <p>Is Active:</p>
+            <p>Payment Amount:</p>
+            <p>Total Spent on Service:</p>
+            <p>Start Date: </p>
+            <p>Cycle Time:</p>
+            <p>Next Payment Date:</p>
+            <p>URL Associated:</p>
+        </div>
+
+        <div class="column col-3 m-2">
+            <div>
+                <p>
+                    {% if sub.active %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <p>${{"{:.2f}".format(sub.paymentAmount)}}</p>
+            </div>
+
+            <div>
+                <p>
+                    {% if sub.totalSpent %}
+                        ${{"{:.2f}".format(sub.totalSpent)}}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    {% if sub.startDate %}
+                        {{ sub.startDate.strftime("%Y-%m-%d") }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    {% if sub.timeBetweenPayments %}
+                        {{ sub.timeBetweenPayments }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    {% if sub.nextPaymentDate %}
+                        {{ sub.nextPaymentDate.strftime("%Y-%m-%d") }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    {% if sub.urlAssociated %}
+                        {{ sub.urlAssociated }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <div class="column col-6"></div>
+
+    </div>
+
+    <div class="text-center">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="toast toast-{{category}}">
+                        <span class="">
+                            <p class="m-2">{{message}}</p>
+                        </span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/subscription.js') }}"></script>
+{% endblock %}
