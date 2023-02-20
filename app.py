@@ -3,11 +3,17 @@ from models.models import db, loginManager
 from routes.routes import routes
 from routes.api import apiRoutes
 import os
+import dj_database_url
 
 app = Flask(__name__)
 app.secret_key = "OMG_so_secret"
 app.template_folder = 'templates'
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL") or "sqlite:///database.db"
+
+if app.config["SQLALCHEMY_DATABASE_URI"].startswith("postgres://"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace("postgres://", "postgresql://", 1)
+
 app.register_blueprint(routes)
 app.register_blueprint(apiRoutes, name="apiRoutes")
 loginManager.init_app(app)
