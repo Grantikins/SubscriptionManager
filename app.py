@@ -2,6 +2,7 @@ from flask import Flask
 from models.models import db, loginManager
 from routes.routes import routes
 from routes.api import apiRoutes
+import os
 
 app = Flask(__name__)
 app.secret_key = "OMG_so_secret"
@@ -17,4 +18,4 @@ db.init_app(app)
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=False)
+    app.run(debug=False, port=os.environ.get("PORT"))
