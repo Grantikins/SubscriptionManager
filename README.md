@@ -13,4 +13,10 @@ The tech stack used here is:
 * sqllite 
 * Spectre CSS
 
-The full list of requirements is in the requirements.txt file here in this repo. You can install them if you want to run this on your machine. 
+The full list of requirements is in the requirements.txt file here in this repo. You can install them if you want to run this on your machine. Here are the steps:
+
+1) clone this repository
+2) cd to where you cloned it
+3) run "pip install -r requirements.txt" (This will download all dependencies)
+4) run app.py
+5) open the link in the command line or localhost on port 5000
