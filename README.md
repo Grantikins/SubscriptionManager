@@ -13,6 +13,8 @@ The tech stack used here is:
 * sqllite 
 * Spectre CSS
 
+This project is hosted using PythonAnywhere. The Heroku hosting given by Github will not work. Here is the link: https://grantikins.pythonanywhere.com/login/ 
+
 The full list of requirements is in the requirements.txt file here in this repo. You can install them if you want to run this on your machine. Here are the steps:
 
 1) clone this repository
